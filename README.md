@@ -9,10 +9,15 @@ PropellerBugList.xlsx
 
 Для запуска всех тестов:
 -ea -Dcucumber.options="--tags @all
+
 Для запуска тестов по авторизации:
 -ea -Dcucumber.options="--tags @authorization
+
 Для запуска тестов по статьям:
 -ea -Dcucumber.options="--tags @articles
+
+
+Браузер задается в test.properties
 
 Собираются логи и снимки экрана:
 в папку logs

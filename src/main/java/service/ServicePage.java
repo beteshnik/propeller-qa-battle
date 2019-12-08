@@ -54,10 +54,10 @@ public class ServicePage {
     }
 
     // читаем файл в строку
-    public static String readFile(String jsonPath) {
+    public static String readFile(String path) {
         try {
             StringBuilder builder = new StringBuilder();
-            FileReader fr = new FileReader(getAbsolutePath(jsonPath));
+            FileReader fr = new FileReader(path);
             Scanner scanner = new Scanner(fr);
             while (scanner.hasNextLine()) {
                 builder.append(scanner.nextLine());
