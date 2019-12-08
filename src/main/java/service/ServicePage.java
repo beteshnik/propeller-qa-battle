@@ -7,6 +7,8 @@ import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.io.*;
+import java.util.Scanner;
 
 import static common.Browser.getDriver;
 
@@ -51,6 +53,31 @@ public class ServicePage {
         return System.currentTimeMillis() / 1000L;
     }
 
+    // читаем файл в строку
+    public static String readFile(String jsonPath) {
+        try {
+            StringBuilder builder = new StringBuilder();
+            FileReader fr = new FileReader(getAbsolutePath(jsonPath));
+            Scanner scanner = new Scanner(fr);
+            while (scanner.hasNextLine()) {
+                builder.append(scanner.nextLine());
+            }
+            fr.close();
+            scanner.close();
+
+            return builder.toString();
+        } catch (Exception e) {
+
+            System.err.println(e);
+            return null;
+        }
+    }
+
+    //удаляем файл
+    public static void deleteFile(String path) {
+        File file = new File(path);
+        file.delete();
+    }
 
 }
 

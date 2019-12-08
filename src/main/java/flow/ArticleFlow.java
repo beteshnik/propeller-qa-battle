@@ -1,5 +1,6 @@
 package flow;
 
+import common.Assertion;
 import common.Browser;
 import org.openqa.selenium.support.PageFactory;
 import pages.ArticlePage;
@@ -30,7 +31,15 @@ public class ArticleFlow {
         articlePage.checkVisibleArticlesQuantity(articleQuantity);
     }
 
+    //Проверяем текст в отображении и в файле
+    public static void checkArticlesText(int articleQuantity) throws IOException  {
+        for(int i=0; i<articleQuantity; i++)
+        articlePage.openArticle(i);
+        articlePage.downloadArticle();
+        String articleText = articlePage.getArticleText();
+        String fileText = articlePage.fileContent();
+        Assertion.assertEqualWithMessage(articleText,fileText);
 
-
+    }
 
 }
