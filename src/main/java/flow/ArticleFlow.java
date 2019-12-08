@@ -13,20 +13,24 @@ public class ArticleFlow {
             Browser.getDriver(), ArticlePage.class
     );
 
-    //Успешная авторизация
+    //Успешная авторизация, открылась страница статей
     public static void ensurePageLoaded(String result)  {
         if(result.equals("true")){
         articlePage.ensurePageLoaded();}
         else{articlePage.ensurePageNotLoaded();}
     }
 
-    //алерты после авторизации
-    public static void acceptAlert(String alertAction) throws IOException {
-        if (alertAction.equals("accept")) {
-            MainPage.acceptAlert();
-        } else {
-            MainPage.acceptAlert();
-        }
+    //Открываем секцию
+    public static void clickSection(String section) throws IOException  {
+        articlePage.clickBySectionButton(section);
     }
+
+    //Проверяем кол-во статей
+    public static void checkArticlesQuantity(int articleQuantity) throws IOException  {
+        articlePage.checkVisibleArticlesQuantity(articleQuantity);
+    }
+
+
+
 
 }

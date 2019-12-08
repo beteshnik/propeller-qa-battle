@@ -32,7 +32,7 @@ public class MainSteps {
     @After()
     public void afterSteps(Scenario scenario) {
         String comment = String.valueOf(getErrorComment(scenario));
-        int scenarioId = Integer.parseInt(String.valueOf(scenario.getSourceTagNames()).replaceAll("[^0-9]", ""));
+        String scenarioId = String.valueOf(scenario.getSourceTagNames());
         if (!comment.equals("null")) {
             System.out.println(scenarioId + ": " + comment);
         }
