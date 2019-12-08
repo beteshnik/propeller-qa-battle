@@ -19,6 +19,8 @@ PropellerBugList.xlsx
 
 Браузер задается в test.properties
 
+Путь к файлу со скачанной статьей задается в test.properties
+
 Собираются логи и снимки экрана:
 в папку logs
 в папку allure-reuslts
