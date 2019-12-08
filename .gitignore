@@ -1,0 +1,11 @@
+.gradle/
+*build/
+.idea/
+out/
+target/
+drivers
+
+.allure/
+
+allure-results/
+logs/

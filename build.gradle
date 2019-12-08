@@ -1,0 +1,130 @@
+import java.nio.charset.Charset
+
+apply plugin: 'java'
+
+configurations {
+    agent
+    cucumber
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.qameta.allure:allure-gradle:2.5"
+    }
+}
+
+apply plugin: 'io.qameta.allure'
+allure {
+    autoconfigure = true
+    version = '2.7.0'
+
+    useTestNG {
+        version = '2.7.0'
+    }
+
+    downloadLink = 'https://dl.bintray.com/qameta/generic/io/qameta/allure/allure/2.7.0/allure-2.7.0.zip'
+}
+
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+wrapper {
+    gradleVersion = '4.4'
+}
+
+dependencies {
+    testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
+    testCompile 'junit:junit:4.12'
+    testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.4.0'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version: '3.4.0'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.14.0'
+    compile group: 'io.cucumber', name: 'cucumber-junit', version: "3.0.2"
+    compile group: 'io.cucumber', name: 'cucumber-testng', version: "3.0.2"
+    compile group: 'io.cucumber', name: 'cucumber-core', version: '3.0.2'
+    compile group: 'io.cucumber', name: 'cucumber-java', version: '3.0.2'
+    compile group: 'io.qameta.allure', name: 'allure-gradle', version: '2.5'
+    compile group: 'io.qameta.allure', name: 'allure-java-commons', version: '2.7.0'
+    compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.7.0'
+    compile group: 'io.qameta.allure', name: 'allure-cucumber3-jvm', version: '2.7.0'
+    compile 'io.qameta.atlas:atlas-webdriver:1.7.0'
+    
+    compileOnly "org.projectlombok:lombok:1.16.20"
+}
+
+test {
+    useTestNG()
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': project.name,
+                'Implementation-Version': '0.1'
+    }
+    baseName = project.name
+    from({
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    })
+            {
+                exclude 'META-INF/MANIFEST.MF'
+                exclude 'META-INF/*.SF'
+                exclude 'META-INF/*.DSA'
+                exclude 'META-INF/*.RSA'
+            }
+    with jar
+}
+
+def classNames = [
+        'common.runner.BDDRunner'
+]
+
+String optionalProperty(String name) {
+    def result = ""
+
+    if (hasProperty(name)) {
+        result = new String(Charset.forName("UTF-8").encode(getProperty(name)).array()).trim()
+    }
+
+    result
+}
+
+def targetEnv = optionalProperty("env") ?: 'test'
+
+def targetBrowser = optionalProperty("browser") ?: 'Chrome'
+
+def targetTags = optionalProperty("tags") ?: '@all'
+
+compileJava.options.encoding = 'UTF-8'
+
+
+task cucumber(type: Test, dependsOn: ["cleanTest"]) {
+    useTestNG()
+}
+
+tasks.withType(Test) {
+    classpath = project.sourceSets.main.runtimeClasspath
+    //testClassesDir = project.sourceSets.main.output.classesDir
+
+    testLogging.showStandardStreams = true
+    systemProperty "file.encoding", "utf-8"
+    systemProperty "org.uncommons.reportng.velocity-log", "true"
+    systemProperty "org.uncommons.reportng.frames", "true"
+    systemProperty "browser", targetBrowser
+    systemProperty "env", targetEnv
+    systemProperty "cucumber.options", System.properties.getProperty("cucumber.options")
+    systemProperty "cucumber.options", "--tags " + targetTags
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
