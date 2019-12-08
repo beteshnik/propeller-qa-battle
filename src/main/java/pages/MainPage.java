@@ -69,25 +69,15 @@ public class MainPage extends ServicePage {
     }
 
     public static String getValueText(WebElement field) {
-        try {
-            if (field.getAttribute("value").equals("")) {
-                return null;
-            } else
-                return field.getAttribute("value");
-        } catch (NoSuchElementException | NullPointerException e) {
-            return null;
-        }
+        return field.getAttribute("value");
+    }
+
+    public static String getInnerText(WebElement field) {
+        return field.getAttribute("InnerText");
     }
 
     public static String getText(WebElement field) {
-        try {
-            if (field.getText().equals("") || field.getText().equals("-") || field.getText().contains("Не определено")) {
-                return null;
-            } else
-                return field.getText();
-        } catch (NoSuchElementException | NullPointerException e) {
-            return null;
-        }
+        return field.getText();
     }
 
 
@@ -119,7 +109,7 @@ public class MainPage extends ServicePage {
 
     public static void acceptAlert() {
         int i = 0;
-        while (i++ < 10) {
+        while (i++ < 4) {
             try {
                 Alert alert = getDriver().switchTo().alert();
                 alert.accept();
@@ -133,17 +123,18 @@ public class MainPage extends ServicePage {
 
 
     public static void dismissAlert() {
-        getDriver().navigate().refresh();
-        try {
-            Alert alert = getDriver().switchTo().alert();
-            alert.dismiss();
-            waitForLoad();
+        int i = 0;
+        while (i++ < 4) {
+            try {
+                Alert alert = getDriver().switchTo().alert();
+                alert.dismiss();
+                waitForLoad();
+            } catch (NoAlertPresentException e) {
+                waitSeconds(3);
+            } catch (UnhandledAlertException e) {
+            }
 
-        } catch (NoAlertPresentException | UnhandledAlertException ex) {
         }
     }
-
 }
-
-
 

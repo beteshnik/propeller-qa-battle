@@ -2,13 +2,13 @@ package service;
 
 import common.Application;
 import org.openqa.selenium.*;
-import java.io.File;
 import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.*;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static common.Browser.getDriver;
 
@@ -54,23 +54,9 @@ public class ServicePage {
     }
 
     // читаем файл в строку
-    public static String readFile(String path) {
-        try {
-            StringBuilder builder = new StringBuilder();
-            FileReader fr = new FileReader(path);
-            Scanner scanner = new Scanner(fr);
-            while (scanner.hasNextLine()) {
-                builder.append(scanner.nextLine());
-            }
-            fr.close();
-            scanner.close();
-
-            return builder.toString();
-        } catch (Exception e) {
-
-            System.err.println(e);
-            return null;
-        }
+    public static String readFile(String path)  throws  IOException {
+        String contents = new String(Files.readAllBytes(Paths.get(path)));
+        return contents;
     }
 
     //удаляем файл

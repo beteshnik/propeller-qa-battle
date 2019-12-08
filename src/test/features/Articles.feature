@@ -20,12 +20,11 @@ Feature: Articles
   # Текст в textarea и при скачке ДОЛЖЕН быть одинаковый, это важная функциональность для заказчика.
   @articledownload
   Scenario Outline: Check section and articles quantity
-    When User opens section <section>
-    #можно проверить любое кол-во статей, взяла 2 для демонстрации
-    Then User checks articles downloaded texts for 1 articles
+    When User opens section all
+    Then User checks articles <article> downloaded texts
 
     Examples:
-      | section           |
-      | Advertisers       |
-#      | Publishers        |
-#      | Top level clients |
+      | article |
+      | Adidas     |
+      | Tony Stark     |
+      | Sasha Grey     |

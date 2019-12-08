@@ -27,10 +27,10 @@ public class ArticleSteps {
         ArticleFlow.checkArticlesQuantity(Integer.parseInt(quantity));
     }
 
-    @Step("User checks articles downloaded texts for <> articles")
-    @When("User checks articles downloaded texts for (.*) articles")
-    public void checkArticlesText(String quantity) throws IOException {
-        ArticleFlow.checkArticlesText(Integer.parseInt(quantity));
+    @Step("User checks articles downloaded texts")
+    @When("User checks articles (.*) downloaded texts")
+    public void checkArticlesText(String articleName) throws IOException {
+        ArticleFlow.checkArticlesText(articleName);
     }
 
 }
