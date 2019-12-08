@@ -73,8 +73,8 @@ public class ArticlePage extends MainPage {
     //проверяем что файл загружен корректно
     public static String fileContent() throws IOException {
         MainPage.waitSeconds(5);
-        String fileText = readFile("C:\\Users\\User\\Downloads");
-        deleteFile("C:\\Users\\User\\Downloads");
+        String fileText = readFile("C:\\Users\\User\\Downloads\\data.txt");
+        deleteFile("C:\\Users\\User\\Downloads\\data.txt");
         return fileText;
     }
 }
